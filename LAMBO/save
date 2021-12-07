@@ -1,0 +1,309 @@
+from binance.client import Client
+from flask import Flask
+from flask import Flask, redirect, url_for, render_template, request, flash
+import csv
+import io
+import os
+import re
+app = Flask(__name__)
+
+client  = Client('OBrMRPRGvnYskykUCY4noyAD1QvO647MkeE53KUIJWeRB5ANwSfWJgMm86b5o0Ya','rHEWsSTomsDUG2rWsRhwGJhAGjy8kWfcVYSAJ66Tla6z55wjYXIPLG5zphOozutc')
+
+
+min=0
+ontrade=0
+tradeCprice= 0
+tradeOprice= 0
+sell=0
+buy=0
+ptrn=""
+count=0
+@app.route('/calc')
+def calc():
+    return render_template('road.html')
+
+
+@app.route("/getdata")
+def getdata():
+    import csv
+    from binance.client import Client
+
+    client  = Client('OBrMRPRGvnYskykUCY4noyAD1QvO647MkeE53KUIJWeRB5ANwSfWJgMm86b5o0Ya','rHEWsSTomsDUG2rWsRhwGJhAGjy8kWfcVYSAJ66Tla6z55wjYXIPLG5zphOozutc')
+
+
+      # prices = client.get_all_tickers()
+    #coinname = request.args.get('coin')
+    coinname = "GALAUSDT"
+    fe = request.args.get('sdate')
+    le = request.args.get('edate')
+    usd=request.args.get('usd')
+    sdate = str(fe)
+    edate = str(le)
+    coinname = str(coinname)
+    sdate = sdate.split("-")
+
+    edate = edate.split("-")
+
+    syear = sdate[0]
+    smonth = sdate[1]
+    sdate = sdate[2]
+
+    eyear = edate[0]
+    emonth = edate[1]
+    edate = edate[2]
+
+    if (smonth=="1"):
+        smonth = "jan"
+    elif (smonth=="2"):
+        smonth = "feb"
+    elif (smonth=="3"):
+        smonth = "mar"
+    elif (smonth=="4"):
+        smonth = "apr"
+    elif (smonth=="5"):
+        smonth = "may"
+    elif (smonth=="6"):
+        smonth = "jun"
+    elif (smonth=="7"):
+        smonth = "jul"
+    elif (smonth=="8"):
+        smonth = "aug"
+    elif (smonth=="9"):
+        smonth = "sep"
+    elif (smonth=="10"):
+        smonth = "oct"
+    elif (smonth=="11"):
+        smonth = "nov"
+    elif (smonth=="12"):
+        smonth = "dec"
+    else:
+        emonth = "dec"
+    if (emonth=="1"):
+        emonth = "jan"
+    elif (emonth=="2"):
+        emonth = "feb"
+    elif (emonth=="3"):
+        emonth = "mar"
+    elif (emonth=="4"):
+        emonth = "apr"
+    elif (emonth=="5"):
+        emonth = "may"
+    elif (emonth=="6"):
+        emonth = "jun"
+    elif (emonth=="7"):
+        emonth = "jul"
+    elif (emonth=="8"):
+        emonth = "aug"
+    elif (emonth=="9"):
+        emonth = "sep"
+    elif (emonth=="10"):
+        emonth = "oct"
+    elif (emonth=="11"):
+        emonth = "nov"
+    elif (emonth=="12"):
+        emonth = "dec"
+    else:
+        emonth = "dec"
+
+
+
+
+    Sdate = sdate+" "+smonth+", "+syear
+    Edate = edate+" "+emonth+", "+eyear
+    print(Sdate)
+    print(Edate)
+
+
+
+
+
+
+
+      # for price in prices:
+      #     print(price)
+
+    csvfile = open('file.csv', 'w', newline='')
+    candlestick_writer = csv.writer(csvfile, delimiter=',')
+
+    candlesticks = client.get_historical_klines(coinname, Client.KLINE_INTERVAL_1MINUTE, Sdate, Edate)
+      #candlesticks = client.get_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_1DAY, "1 Jan, 2020", "12 Jul, 2020")
+      #candlesticks = client.get_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_1DAY, "1 Jan, 2017", "12 Jul, 2020")
+
+    for candlestick in  candlesticks:
+
+        candlestick[0] = candlestick[0] / 1000
+        candlestick_writer.writerow(candlestick)
+
+    #with open('1m_a1_S1FP.csv', newline='') as f:
+        #reader = csv.reader(f)
+        #for row in reader:
+
+            #print(row)
+
+
+    csvfile.close()
+
+    #os.remove("1m_a1_S1FP.csv")
+    return  redirect(url_for('lambo',usd1=usd))
+
+@app.route('/lambo')
+def lambo():
+
+
+
+    import io
+    import csv
+    import re
+    fe = request.args.get('sdate')
+
+    min=0
+    day=0
+
+
+    ontrade=0
+    tradeCprice= 0
+    tradeOprice= 0
+    sell=0
+    buy=0
+
+    ptrn=""
+    count=0
+
+    with open('file.csv', newline='') as f:
+        reader = csv.reader(f)
+        for row in reader:
+
+    # do something here with `row`
+            min=min+1
+            if(min==1440) :
+                day=day+1
+            Opentime= float(row[0])
+            Open= float(row[1])
+            High= float(row[2])
+            Low= float(row[3])
+            Close= float(row[4])
+            Closetime= float(row[5])
+            volume= float(row[6])
+
+
+
+            if(High>tradeCprice) :
+
+                ontrade=0
+                printS =tradeCprice
+                tradeCprice= 0
+                tradeOprice= 0
+                if(printS!=0):
+                    sell=sell+1
+            else :
+                continue
+
+
+            cp = Close
+            op = Open
+            state=cp-op
+
+            if(state>=0) :
+                ptrn=ptrn+"0"
+            else :
+                ptrn=ptrn+"1"
+            batRegex = re.compile(r'0*00100')
+            mo3 = batRegex.search(ptrn)
+
+            if(batRegex.search(ptrn)) :
+                ontrade=1
+                tradeOprice = Close
+                tradeCprice = Close*1.01
+                buy=buy+1
+                count = count+1
+                ptrn=""
+
+
+
+
+
+      #break
+
+    print("Total No Of Trades = ",count)
+
+
+    print("Total Buy = ",buy)
+    print("Total Sell = ", sell)
+    print("total Minutes", min)
+    #os.remove("1m_a1_S1FP.csv")
+    return render_template('index.html', trade1=count, buy1=buy, sell1=sell, day1=day )
+
+
+
+@app.route("/")
+def index():
+    return render_template('index.html')
+
+
+
+
+
+@app.route("/test1")
+def test1():
+    import csv
+    from binance.client import Client
+    import re
+
+    client  = Client('OBrMRPRGvnYskykUCY4noyAD1QvO647MkeE53KUIJWeRB5ANwSfWJgMm86b5o0Ya','rHEWsSTomsDUG2rWsRhwGJhAGjy8kWfcVYSAJ66Tla6z55wjYXIPLG5zphOozutc')
+
+
+    # prices = client.get_all_tickers()
+
+    # for price in prices:
+    #     print(price)
+
+    from datetime import date
+    syear = 2017
+    smonth = 8
+    sday = 18
+    eyear = 2017
+    emonth = 10
+    eday = 26
+
+    d0 = date(syear,smonth ,sday )
+    d1 = date(eyear,emonth ,eday )
+    delta = d1 - d0
+    sdate = str(delta)
+    print(sdate[:2])
+
+
+
+    exchange_info = client.get_exchange_info()
+    for s in exchange_info['symbols']:
+      if s['symbol'].endswith("USDT"):
+        sym = s['symbol']
+        csvfile = open(sym+'.csv', 'w', newline='')
+        candlestick_writer = csv.writer(csvfile, delimiter=',')
+        candlesticks = client.get_historical_klines(sym, Client.KLINE_INTERVAL_1MINUTE, "6 Dec, 2021", "7 Dec, 2021")
+        for candlestick in  candlesticks:
+          candlestick[0] = candlestick[0] / 1000
+          candlestick_writer.writerow(candlestick)
+
+        print(sym)
+
+
+    csvfile.close()
+    return  redirect(url_for('test2'))
+
+
+
+    #candlesticks = client.get_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_1DAY, "1 Jan, 2020", "12 Jul, 2020")
+    #candlesticks = client.get_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_1DAY, "1 Jan, 2017", "12 Jul, 2020")
+
+@app.route("/test2")
+def test2():
+    import csv
+    from binance.client import Client
+    import re
+
+    client  = Client('OBrMRPRGvnYskykUCY4noyAD1QvO647MkeE53KUIJWeRB5ANwSfWJgMm86b5o0Ya','rHEWsSTomsDUG2rWsRhwGJhAGjy8kWfcVYSAJ66Tla6z55wjYXIPLG5zphOozutc')
+    exchange_info = client.get_exchange_info()
+    for s in exchange_info['symbols']:
+      if s['symbol'].endswith("USDT"):
+        sym = s['symbol']
+        lambo()
