@@ -95,11 +95,12 @@
               <p class="signup-option">
                 LAMBORGHINI ENGIN V1.2<a href="javascript:void(0)">  </a>
               </p>
-              <form class="ud-login-form" action="https://fende.herokuapp.com/getdata">
+              <form class="ud-login-form" action="https://fende.herokuapp.com/getdata" method="post">
                 <div class="ud-form-group">
                   <input
                     type="text"
                     name="coin"
+                    oninput="this.value = this.value.toUpperCase()"
                     placeholder="EX : BTCUSDT"
                   />
                 </div>
