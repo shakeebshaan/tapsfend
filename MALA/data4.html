@@ -1,0 +1,152 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TAPS</title>
+
+    <!--====== Favicon Icon ======-->
+    <link
+      rel="shortcut icon"
+      href="assets/images/favicon.svg"
+      type="image/svg"
+    />
+
+    <!-- ===== All CSS files ===== -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/animate.css" />
+    <link rel="stylesheet" href="assets/css/lineicons.css" />
+    <link rel="stylesheet" href="assets/css/ud-styles.css" />
+  </head>
+  <body>
+    <!-- ====== Header Start ====== -->
+    <header class="ud-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <nav class="navbar navbar-expand-lg">
+              <a class="navbar-brand" href="index.html">
+                <img src="assets/images/logo/logo.svg" alt="Logo" />
+              </a>
+              <button class="navbar-toggler">
+                <span class="toggler-icon"> </span>
+                <span class="toggler-icon"> </span>
+                <span class="toggler-icon"> </span>
+              </button>
+
+              <div class="navbar-collapse">
+                <ul id="nav" class="navbar-nav mx-auto">
+                  <li class="nav-item">
+                    <a class="ud-menu-scroll" href="#home">Home</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="ud-menu-scroll" href="#about">About</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="ud-menu-scroll" href="#pricing">Pricing</a>
+                  </li>
+
+
+                </ul>
+              </div>
+
+              <div class="navbar-btn d-none d-sm-inline-block">
+                <a href="login.html" class="ud-main-btn ud-login-btn">
+                  Sign In
+                </a>
+                <a class="ud-main-btn ud-white-btn" href="javascript:void(0)">
+                  Sign Up
+                </a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ====== Header End ====== -->
+
+    <!-- ====== Banner Start ====== -->
+    <section class="ud-page-banner">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ud-banner-content">
+              <h1>Profitibility Calculator</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ====== Banner End ====== -->
+
+    <!-- ====== Login Start ====== -->
+    <section class="ud-login">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ud-login-wrapper">
+              <div class="ud-login-logo">
+                <img src="assets/images/logo/logo-2.svg" alt="logo" />
+              </div>
+              <p class="signup-option">
+                MCLAREN ENGIN V4<a href="javascript:void(0)">  </a>
+              </p>
+              <form class="ud-login-form" action="https://fende.herokuapp.com/MALA4getdata" method="POST">
+                <div class="ud-form-group">
+                  <input
+                    type="text"
+                    name="coin"
+                    oninput="this.value = this.value.toUpperCase()"
+                    placeholder="EX : BTCUSDT"
+                  />
+                </div>
+                <div class="ud-form-group">
+                  <input
+                    type="date"
+                    name="sdate"
+                    placeholder="Starting Date"
+                  />
+                </div>
+                <div class="ud-form-group">
+                  <input
+                    type="date"
+                    name="edate"
+                    placeholder="Ending  Date"
+
+                  />
+                </div>
+                <div class="ud-form-group">
+                  <button type="submit" class="ud-main-btn w-100" > GENERATE</button>
+                </div>
+              </form>
+              <p class="signup-option">
+                 Days Can Be More than 30     </a>
+              </p>
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ====== Login End ====== -->
+
+
+    <!-- ====== Back To Top Start ====== -->
+    <a href="javascript:void(0)" class="back-to-top">
+      <i class="lni lni-chevron-up"> </i>
+    </a>
+    <!-- ====== Back To Top End ====== -->
+
+    <!-- ====== All Javascript Files ====== -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
